@@ -89,6 +89,16 @@ module.exports = {
         initialValue: 270,
         interpolatable: false,
       }
+    },
+    {
+      type: "check",
+      id: "stopOnSolid",
+      name: "Stop On Solid",
+      desc: "Stops the projectile movement when colliding with a Solid",
+      options: {
+        initialValue: true,
+        interpolatable: false,
+      }
     }
     /*
     {
@@ -139,12 +149,11 @@ module.exports = {
   aceCategories: {
     // follows the format id: langName
     // in the ACEs refer to categories using the id, not the name
-    setup: "Setup",
-    calculate: "Calculate",
+    general: "General"
   },
   Acts: {
     SetEnabled:{
-      category: "setup",
+      category: "general",
       forward: "SetEnabled",
       autoScriptInterface: true,
       highlight: false,
@@ -163,7 +172,7 @@ module.exports = {
       description: "Set Enabled",
     },
     SetGravityAngle: {
-      category: "setup",
+      category: "general",
       forward: "SetGravityAngle",
       autoScriptInterface: true,
       highlight: false,
@@ -182,7 +191,7 @@ module.exports = {
       description: "Set Gravity Angle",
     },
     SetTrajectoryByVelocity: {
-      category: "calculate",
+      category: "general",
       forward: "SetTrajectoryByVelocity",
       autoScriptInterface: true,
       highlight: false,
@@ -202,13 +211,27 @@ module.exports = {
           type: "number",
           value: "270",
         },
+        {
+          id: "startInstantly",
+          name: "Start Instantly",
+          desc: "Start moving along the trajectory instantly",
+          type: "boolean",
+          value: "true",
+        },
+        {
+          id: "stopOnSolid",
+          name: "Stop On Solid",
+          desc: "Stops the projectile movement when colliding with a Solid",
+          type: "boolean",
+          value: "true",
+        }
       ],
       listName: "Set Trajectory By Velocity",
-      displayText: "{my}: Set Trajectory By Velocity [i]{0}[/i] [i]{1}[/i]",
+      displayText: "{my}: Set Trajectory By Velocity (Velocity: [b]{0}[/b], Angle: [b]{1}[/b], Start Instantly: [b]{2}[/b], Stop On Soild: [b]{3}[/b])",
       description: "Set Trajectory By Velocity",
     },
     SetTrajectoryByTarget: {
-      category: "calculate",
+      category: "general",
       forward: "SetTrajectoryByTarget",
       autoScriptInterface: true,
       highlight: false,
@@ -237,9 +260,52 @@ module.exports = {
         },
       ],
       listName: "Set Trajectory By Target",
-      displayText: "{my}: Set Trajectory By Target [i]{0}[/i] [i]{1}[/i] [i]{2}[/i]",
+      displayText: "{my}: Set Trajectory By Target [b]{0}[/b] [b]{1}[/b] [b]{2}[/b]",
       description: "Set Trajectory By Target",
     },
+    DrawTrajectory: {
+      category: "general",
+      forward: "DrawTrajectoryLine",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [
+        {
+          id: "sprite",
+          name: "Sprite",
+          desc: "The Sprite used to draw the trajectory",
+          type: "object",
+          allowedPluginIds: ["Sprite", "TiledBg"]
+        },
+        {
+          id: "layer",
+          name: "Layer",
+          desc: "The Layer used to draw the trajectory",
+          type: "layer",
+        },
+        {
+          id: "steps",
+          name: "Steps",
+          desc: "The number of steps to draw",
+          type: "number",
+          value: "10",
+        }
+      ],
+      listName: "Draw Trajectory",
+      displayText: "{my}: Draw Trajectory using [b]{0}[/b] with [b]{2}[/b] Steps, on Layer [b]{1}[/b]",
+      description: "Draw Trajectory",
+    },
+    ClearDrawnTrajectory: {
+      category: "general",
+      forward: "ClearDrawnTrajectory",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [],
+      listName: "Clear Drawn Trajectory",
+      displayText: "{my}: Clear Drawn Trajectory",
+      description: "Clear Drawn Trajectory",
+    }
     /*
     SampleAction: {
       // The category of the action as it appears in the add action dialog
@@ -334,7 +400,7 @@ module.exports = {
   },
   Cnds: {
     IsEnabled: {
-      category: "setup",
+      category: "general",
       forward: "IsEnabled",
       autoScriptInterface: true,
       highlight: false,
@@ -343,6 +409,18 @@ module.exports = {
       listName: "Is Enabled",
       displayText: "{my}: Is Enabled",
       description: "Is Enabled",
+    },
+    OnHitSolid: {
+      category: "general",
+      forward: "OnHitSolid",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [],
+      isTrigger: true,
+      listName: "On Hit Solid",
+      displayText: "{my}: On Hit Solid",
+      description: "On Hit Solid",
     },
     /*
     SampleCondition: {
@@ -443,7 +521,7 @@ module.exports = {
   },
   Exps: {
     GetXAt: {
-      category: "calculate",
+      category: "general",
       forward: "GetXAt",
       autoScriptInterface: true,
       highlight: false,
@@ -463,7 +541,7 @@ module.exports = {
       description: "Get X At",
     },
     GetYAt: {
-      category: "calculate",
+      category: "general",
       forward: "GetYAt",
       autoScriptInterface: true,
       highlight: false,
@@ -483,7 +561,7 @@ module.exports = {
       description: "Get Y At",
     },
     GetVelocityX: {
-      category: "calculate",
+      category: "general",
       forward: "GetVelocityX",
       autoScriptInterface: true,
       highlight: false,
@@ -495,7 +573,7 @@ module.exports = {
       description: "Get Velocity X",
     },
     GetVelocityY: {
-      category: "calculate",
+      category: "general",
       forward: "GetVelocityY",
       autoScriptInterface: true,
       highlight: false,
@@ -507,7 +585,7 @@ module.exports = {
       description: "Get Velocity Y",
     },
     GetAngleAt: {
-      category: "calculate",
+      category: "general",
       forward: "GetAngleAt",
       autoScriptInterface: true,
       highlight: false,
