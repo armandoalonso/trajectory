@@ -15,8 +15,10 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       this.curY = 0;
       this.currentTime = 0;
       this.stopOnSolid = false;
+      this.setMovementAngle = false;
 
       this.drawLineInstances = [];
+      this.objectPool = new globalThis._P305.objectPool(this._runtime);
 
       if (properties) {
         this.enabled = properties[0];
@@ -25,6 +27,7 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
         this.gravity = properties[3];
         this.gravityAngle = properties[4];
         this.stopOnSolid = properties[5];
+        this.setMovementAngle = properties[6];
       }
 
       if(this.enabled) {
@@ -35,9 +38,11 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
     Tick(){
       if(!this.enabled) {
         this._StopTicking();
+        this.isMoving = false;
         return;
       }
 
+      this.isMoving = true;
       const wi = this._inst.GetWorldInfo();
       const dt = this._runtime.GetDt(this.inst);
 
@@ -45,32 +50,53 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       const startY = wi.GetY();
       const starAngle = wi.GetAngle();
       
-      wi.SetXY(
-        this.GetXAt(this.currentTime),
-        this.GetYAt(this.currentTime)
-      );
-
+      wi.SetXY(this.GetXAt(this.currentTime), this.GetYAt(this.currentTime));
+      wi.SetAngle(this.setMovementAngle && this.currentTime > 0.1 ? this.GetAngleAt(this.currentTime) : 0);
       wi.SetBboxChanged();
+
       this.CheckForCollision(startX, startY, starAngle);
       this.currentTime += dt;
     }
 
-    DrawTrajectoryLine(sprite, layer, steps) {
-      for(let i = 0; i < steps; i++) {
-        const time = i / steps;
-        const x = this.GetXAt(time);
-        const y = this.GetYAt(time);
-        const angle = this.GetAngleAt(i);
-        const instance = this._runtime.CreateInstance(sprite, layer, x, y);
-        instance.GetWorldInfo().SetAngle(angle);
+    DrawTrajectoryLineWithEndSprite(sprite, endSprite, layer, steps, time, setAngle) {
+      this.objectPool.Preload(sprite, layer, steps+steps/2);
+      const instances = this.objectPool.Get(sprite, layer, steps);
+      const timeStep = time / steps;
 
+      for(let i = 0; i < steps; i++) {
+        const t = timeStep * i;
+        const instance = instances[i];
+        instance.GetWorldInfo().SetXY(this.GetXAt(t), this.GetYAt(t));
+        instance.GetWorldInfo().SetAngle(setAngle ? this.GetAngleAt(t) : 0);
+        this.drawLineInstances.push(instance);
+      }
+
+      //draw end sprite
+      if(endSprite) {
+        const instance = this.objectPool.GetOne(endSprite, layer);
+        instance.GetWorldInfo().SetXY(this.GetXAt(time), this.GetYAt(time));
+        instance.GetWorldInfo().SetAngle(setAngle ? this.GetAngleAt(time) : 0);
+        this.drawLineInstances.push(instance);
+      }
+    }
+
+    DrawTrajectoryLine(sprite, layer, steps, time, setAngle) {
+      this.objectPool.Preload(sprite, layer, steps+steps/2);
+      const instances = this.objectPool.Get(sprite, layer, steps);
+      const timeStep = time / steps;
+
+      for(let i = 0; i < steps; i++) {
+        const t = timeStep * i;
+        const instance = instances[i];
+        instance.GetWorldInfo().SetXY(this.GetXAt(t), this.GetYAt(t));
+        instance.GetWorldInfo().SetAngle(setAngle ? this.GetAngleAt(t) : 0);
         this.drawLineInstances.push(instance);
       }
     }
 
     ClearDrawnTrajectory() {
       this.drawLineInstances.forEach((instance) => {
-        this._runtime.DestroyInstance(instance);
+        this.objectPool.AddToPool(instance);
       });
       this.drawLineInstances = [];
     }
@@ -88,7 +114,15 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       this.gravityAngle = gravityAngle;
     };
 
-    SetTrajectoryByVelocity(velocity, angle, start, stopOnSolid) {
+    OnStartMovingAlongTrajectory() {
+      return true;
+    };
+
+    IsMovingAlongTrajectory() {
+      return this.isMoving;
+    }
+
+    SetTrajectoryByVelocity(velocity, angle, start, stopOnSolid, setMovementAngle) {
       const {vx, vy} = this.GetVectorComponents(velocity, angle);
       const wi = this._inst.GetWorldInfo();
 
@@ -96,15 +130,38 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       this.stopOnSolid = stopOnSolid;
       this.velocity = velocity;
       this.angle = angle;
+      this.setMovementAngle = setMovementAngle;
       this.vx = vx;
       this.vy = vy;
       this.curX = wi.GetX();
       this.curY = wi.GetY();
       this.currentTime = 0;
+
+      if(start){
+        this.Trigger(C3.Behaviors.piranha305_trajectory.Cnds.OnStartMovingAlongTrajectory);
+      }
     };
 
-    SetTrajectoryByTarget(targetX, targetY, time) {
-      // implementation
+    SetTrajectoryByTarget(targetX, targetY, time, start, stopOnSolid, setMovementAngle) {
+      const wi = this._inst.GetWorldInfo();
+      this.curX = wi.GetX();
+      this.curY = wi.GetY();
+
+      this.SetEnabled(start);
+      this.stopOnSolid = stopOnSolid;
+      this.vx = (targetX - this.curX)/time;
+      this.vy = (targetY - this.curY + 0.5 * this.GetGravityY() * time * time)/time;
+      this.velocity = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
+      this.angle = this.ToDegrees(Math.atan(this.vy/this.vx));
+      if(this.vx < 0) {
+        this.angle += 180;
+      }
+      this.setMovementAngle = setMovementAngle;
+      this.currentTime = 0;
+
+      if(start){
+        this.Trigger(C3.Behaviors.piranha305_trajectory.Cnds.OnStartMovingAlongTrajectory);
+      }
     };
 
     CheckForCollision(startX, startY, starAngle) {
@@ -129,6 +186,7 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
 
     StopMovement() {
       this.SetEnabled(false);
+      this.isMoving = false;
     }
 
     OnHitSolid() {
@@ -174,16 +232,31 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
     };
 
     GetVelocityX() {
-      return null;
+      const {vx} = this.GetVectorComponents(this.velocity, this.angle);
+      return vx
     };
 
     GetVelocityY() {
-      return null;
+      const {vy} = this.GetVectorComponents(this.velocity, this.angle);
+      return vy
     };
 
     GetAngleAt(time) {
-      return null;
-    };
+      const x1 = this.GetXAt(time);
+      const y1 = this.GetYAt(time);
+      const x2 = this.GetXAt(time+0.1);
+      const y2 = this.GetYAt(time+0.1);
+      
+      return C3.angleTo(x1, y1, x2, y2);
+    }
+
+    GetMaxHeight() {
+      const {vy} = this.GetVectorComponents(this.velocity, this.angle);
+      const time = vy / this.GetGravityY();
+      const yInverse = this.GetYAt(time);
+      const y = this._runtime.GetMainRunningLayout().GetHeight() - yInverse;
+      return y;
+    }
 
     Release() {
       super.Release();

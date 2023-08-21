@@ -3,7 +3,7 @@ module.exports = {
   addonType: "behavior",
   id: "piranha305_trajectory",
   name: "Trajectory",
-  version: "1.0.0.0",
+  version: "0.1.0.0",
   category:
     // "attributes",
      "movements",
@@ -17,6 +17,10 @@ module.exports = {
   // addonUrl: "https://www.construct.net/en/make-games/addons/####/XXXX", // displayed in auto-generated docs
   // githubUrl: "https://github.com/skymen/XXXX", // displays latest release version in auto-generated docs
   fileDependencies: [
+    {
+      filename: "objectPool.js",
+      type: "inline-script",
+    }
     /*
     {
       filename: "filename.js", // no need to include "c3runtime/" prefix
@@ -64,7 +68,7 @@ module.exports = {
       type: "integer",
       id: "angle",
       name: "Angle",
-      desc: "Angle, in degrees",
+      desc: "Angle, in degrees, to launch the projectile at",
       options: {
         initialValue: 45,
         interpolatable: false,
@@ -99,7 +103,17 @@ module.exports = {
         initialValue: true,
         interpolatable: false,
       }
-    }
+    },
+    {
+      type: "check",
+      id: "setMovementAngle",
+      name: "Set Movement Angle",
+      desc: "Set movement angle to match the direction of the trajectory",
+      options: {
+        initialValue: false,
+        interpolatable: false,
+      }
+    },
     /*
     {
       type:
@@ -149,7 +163,8 @@ module.exports = {
   aceCategories: {
     // follows the format id: langName
     // in the ACEs refer to categories using the id, not the name
-    general: "General"
+    general: "General",
+    drawing: "Drawing",
   },
   Acts: {
     SetEnabled:{
@@ -224,10 +239,17 @@ module.exports = {
           desc: "Stops the projectile movement when colliding with a Solid",
           type: "boolean",
           value: "true",
+        },
+        {
+          id: "setMovementAngle",
+          name: "Set Movement Angle",
+          desc: "Set movement angle to match the direction of the trajectory",
+          type: "boolean",
+          value: "false",
         }
       ],
       listName: "Set Trajectory By Velocity",
-      displayText: "{my}: Set Trajectory By Velocity (Velocity: [b]{0}[/b], Angle: [b]{1}[/b], Start Instantly: [b]{2}[/b], Stop On Soild: [b]{3}[/b])",
+      displayText: "{my}: Set Trajectory By Velocity (Velocity: [b]{0}[/b], Angle: [b]{1}[/b], Start Instantly: [b]{2}[/b], Stop On Soild: [b]{3}[/b], Set Movement Angle: [b]{4}[/b])",
       description: "Set Trajectory By Velocity",
     },
     SetTrajectoryByTarget: {
@@ -258,13 +280,34 @@ module.exports = {
           type: "number",
           value: "1",
         },
+        {
+          id: "startInstantly",
+          name: "Start Instantly",
+          desc: "Start moving along the trajectory instantly",
+          type: "boolean",
+          value: "true",
+        },
+        {
+          id: "stopOnSolid",
+          name: "Stop On Solid",
+          desc: "Stops the projectile movement when colliding with a Solid",
+          type: "boolean",
+          value: "true",
+        },
+        {
+          id: "setMovementAngle",
+          name: "Set Movement Angle",
+          desc: "Set movement angle to match the direction of the trajectory",
+          type: "boolean",
+          value: "false",
+        }
       ],
       listName: "Set Trajectory By Target",
-      displayText: "{my}: Set Trajectory By Target [b]{0}[/b] [b]{1}[/b] [b]{2}[/b]",
+      displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Time:[b]{2}[/b] seconds, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b])",
       description: "Set Trajectory By Target",
     },
     DrawTrajectory: {
-      category: "general",
+      category: "drawing",
       forward: "DrawTrajectoryLine",
       autoScriptInterface: true,
       highlight: false,
@@ -289,14 +332,81 @@ module.exports = {
           desc: "The number of steps to draw",
           type: "number",
           value: "10",
+        },
+        {
+          id: 'time',
+          name: 'Time',
+          desc: 'Time, in seconds to draw',
+          type: 'number',
+          value: '1',
+        },
+        {
+          id: "setSpriteAngle",
+          type: "boolean",
+          name: "Set Sprite Angle",
+          desc: "Set Sprite direction angle to match the direction of the trajectory",
+          value: false,
         }
       ],
       listName: "Draw Trajectory",
-      displayText: "{my}: Draw Trajectory using [b]{0}[/b] with [b]{2}[/b] Steps, on Layer [b]{1}[/b]",
+      displayText: "{my}: Draw Trajectory using [b]{0}[/b] with [b]{2}[/b] Steps, on Layer [b]{1}[/b] (Time [b]{3}[/b], Set Sprite Angle [b]{4}[/b])",
+      description: "Draw Trajectory",
+    },
+    DrawTrajectoryWithEndSprite: {
+      category: "drawing",
+      forward: "DrawTrajectoryLineWithEndSprite",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [
+        {
+          id: "sprite",
+          name: "Sprite",
+          desc: "The Sprite used to draw the trajectory",
+          type: "object",
+          allowedPluginIds: ["Sprite", "TiledBg"]
+        },
+        {
+          id: "endSprite",
+          name: "End Cap Sprite",
+          desc: "The Sprite to draw at the end of the trajectory path",
+          type: "object",
+          allowedPluginIds: ["Sprite", "TiledBg"]
+        },
+        {
+          id: "layer",
+          name: "Layer",
+          desc: "The Layer used to draw the trajectory",
+          type: "layer",
+        },
+        {
+          id: "steps",
+          name: "Steps",
+          desc: "The number of steps to draw",
+          type: "number",
+          value: "10",
+        },
+        {
+          id: 'time',
+          name: 'Time',
+          desc: 'Time, in seconds to draw of the trajectory',
+          type: 'number',
+          value: '1',
+        },
+        {
+          id: "setSpriteAngle",
+          type: "boolean",
+          name: "Set Sprite Angle",
+          desc: "Set sprite direction angle to match the direction of the trajectory",
+          value: false,
+        }
+      ],
+      listName: "Draw Trajectory With End Sprite",
+      displayText: "{my}: Draw Trajectory using [b]{0}[/b] with [b]{3}[/b] Steps, on Layer [b]{2}[/b] (End Sprite [b]{1}[/b], Time [b]{4}[/b], Set Sprite Angle [b]{5}[/b])",
       description: "Draw Trajectory",
     },
     ClearDrawnTrajectory: {
-      category: "general",
+      category: "drawing",
       forward: "ClearDrawnTrajectory",
       autoScriptInterface: true,
       highlight: false,
@@ -420,8 +530,31 @@ module.exports = {
       isTrigger: true,
       listName: "On Hit Solid",
       displayText: "{my}: On Hit Solid",
-      description: "On Hit Solid",
+      description: "Triggered when the projectile hits a solid object",
     },
+    OnStartMovingAlongTrajectory: {
+      category: "general",
+      forward: "OnStartMovingAlongTrajectory",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [],
+      isTrigger: true,
+      listName: "On Start Moving Along Trajectory",
+      displayText: "{my}: On Start Moving Along Trajectory",
+      description: "Triggered when the object starts moving along the trajectory",
+    },
+    IsMovingAlongTrajectory: {
+      category: "general",
+      forward: "IsMovingAlongTrajectory",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [],
+      listName: "Is Moving Along Trajectory",
+      displayText: "{my}: Is Moving Along Trajectory",
+      description: "Is Moving Along Trajectory",
+    }
     /*
     SampleCondition: {
       // The category of the action as it appears in the add condition dialog
@@ -603,6 +736,18 @@ module.exports = {
       listName: "Get Angle At",
       displayText: "{my}: Get Angle At [i]{0}[/i]",
       description: "Get Angle At",
+    },
+    GetMaxHeight: {
+      category: "general",
+      forward: "GetMaxHeight",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [],
+      returnType: "number",
+      listName: "Get Max Height",
+      displayText: "{my}: Get Max Height",
+      description: "Get Max Height (in pixels)",
     },
     /*
     SampleExpression: {
