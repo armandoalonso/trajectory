@@ -33,8 +33,12 @@ jobs:
         run: |
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git config --global user.name "GitHub Actions"
-          git add README.md
-          git commit -m "Update Readme.md"
+          if [[ -n $(git status -s) ]]; then
+            git add README.md
+            git commit -m "Update Readme.md"
+          else
+            echo "No changes to commit"
+          fi
 
       - name: Push Documentation
         uses: ad-m/github-push-action@master
