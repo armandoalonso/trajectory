@@ -1,4 +1,4 @@
-<img src="./src/icon.svg" width="100" /><br>
+<img src="./examples/cover.png" width="150" /><br>
 # Trajectory <br>
 A Trajectory behavior for Construct 3, Simulate 2D physics trajectory and projectile motion. simulates the motion of an object that is thrown, launched, or otherwise projected <br>
 <br>
@@ -39,165 +39,58 @@ The main files you may want to look at would be instance.js and scriptInterface.
 
 ---
 ## Properties
-| Property Name | Description
-| --- | --- |
-| [Enabled](#enabled) | Enabled |
-| [Velocity](#velocity) | Velocity, in pixels per second |
-| [Angle](#angle) | Angle, in degrees, to launch the projectile at |
-| [Gravity](#gravity) | Gravity, in pixels per second squared |
-| [Gravity Angle](#gravity-angle) | Gravity Angle, in degrees |
-| [Stop On Solid](#stop-on-solid) | Stops the projectile movement when colliding with a Solid |
-| [Set Movement Angle](#set-movement-angle) | Set movement angle to match the direction of the trajectory |
----
-### Enabled
-**Description:** <br> Enabled </br>
-**Type:** <br> check
-### Velocity
-**Description:** <br> Velocity, in pixels per second </br>
-**Type:** <br> integer
-### Angle
-**Description:** <br> Angle, in degrees, to launch the projectile at </br>
-**Type:** <br> integer
-### Gravity
-**Description:** <br> Gravity, in pixels per second squared </br>
-**Type:** <br> integer
-### Gravity Angle
-**Description:** <br> Gravity Angle, in degrees </br>
-**Type:** <br> integer
-### Stop On Solid
-**Description:** <br> Stops the projectile movement when colliding with a Solid </br>
-**Type:** <br> check
-### Set Movement Angle
-**Description:** <br> Set movement angle to match the direction of the trajectory </br>
-**Type:** <br> check
+| Property Name | Description | Type |
+| --- | --- | --- |
+| Enabled | If Enabled, the object will move along the trajectory paths | check |
+| Velocity | Speed which the object will move in pixels per second | integer |
+| Angle | Angle, in degrees, to launch the projectile at | integer |
+| Gravity | Force applied every tick, in pixels per second squared | integer |
+| Gravity Angle | Angle in which the gravity force will be applied, in degrees | integer |
+| Stop On Solid | Stops the projectile movement when colliding with a Solid | check |
+| Set Movement Angle | Set movement angle to match the direction of the trajectory | check |
+
 
 ---
 ## Actions
-| Action | Description |
-| --- | --- |
-| [Set Enabled](#set-enabled) | Set Enabled |
-| [Set Gravity Angle](#set-gravity-angle) | Set Gravity Angle |
-| [Set Trajectory By Velocity](#set-trajectory-by-velocity) | Set Trajectory By Velocity |
-| [Set Trajectory By Target](#set-trajectory-by-target) | Set Trajectory By Target |
-| [Draw Trajectory](#draw-trajectory) | Draw Trajectory |
-| [Draw Trajectory With End Sprite](#draw-trajectory-with-end-sprite) | Draw Trajectory |
-| [Clear Drawn Trajectory](#clear-drawn-trajectory) | Clear Drawn Trajectory |
----
-### Set Enabled
-**Description:** <br> Set Enabled </br>
-#### Parameters:
-| Name | Type | Description |
+| Action | Description | Params
 | --- | --- | --- |
-| Enabled | boolean | Enabled |
-### Set Gravity Angle
-**Description:** <br> Set Gravity Angle </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Gravity Angle | number | Gravity Angle, in degrees |
-### Set Trajectory By Velocity
-**Description:** <br> Set Trajectory By Velocity </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Velocity | number | Velocity, in pixels per second |
-| Angle | number | Angle, in degrees |
-| Start Instantly | boolean | Start moving along the trajectory instantly |
-| Stop On Solid | boolean | Stops the projectile movement when colliding with a Solid |
-| Set Movement Angle | boolean | Set movement angle to match the direction of the trajectory |
-### Set Trajectory By Target
-**Description:** <br> Set Trajectory By Target </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Target X | number | Target X |
-| Target Y | number | Target Y |
-| Time | number | Time, in seconds |
-| Start Instantly | boolean | Start moving along the trajectory instantly |
-| Stop On Solid | boolean | Stops the projectile movement when colliding with a Solid |
-| Set Movement Angle | boolean | Set movement angle to match the direction of the trajectory |
-### Draw Trajectory
-**Description:** <br> Draw Trajectory </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Sprite | object | The Sprite used to draw the trajectory |
-| Layer | layer | The Layer used to draw the trajectory |
-| Steps | number | The number of steps to draw |
-| Time | number | Time, in seconds to draw |
-| Set Sprite Angle | boolean | Set Sprite direction angle to match the direction of the trajectory |
-### Draw Trajectory With End Sprite
-**Description:** <br> Draw Trajectory </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Sprite | object | The Sprite used to draw the trajectory |
-| End Cap Sprite | object | The Sprite to draw at the end of the trajectory path |
-| Layer | layer | The Layer used to draw the trajectory |
-| Steps | number | The number of steps to draw |
-| Time | number | Time, in seconds to draw of the trajectory |
-| Set Sprite Angle | boolean | Set sprite direction angle to match the direction of the trajectory |
-### Clear Drawn Trajectory
-**Description:** <br> Clear Drawn Trajectory </br>
+| Set Enabled | Sets the behavior as enabled (if true, the object will move along the trajectory paths) | Enabled             *(boolean)* <br> |
+| Set Gravity Angle | Set the angle in which gravity force will be applied, in degrees | Gravity Angle             *(number)* <br> |
+| Set Trajectory By Velocity | Calculate the trajectory based on the velocity and launch angle | Velocity             *(number)* <br>Launch Angle             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br> |
+| Set Trajectory By Target | Calculate the trajectory based on the target position and time | Target X             *(number)* <br>Target Y             *(number)* <br>Time             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br> |
+| Set Trajectory By Target Angle | Calculate the trajectory based on the target position and launch angle | Target X             *(number)* <br>Target Y             *(number)* <br>Launch Angle             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br> |
+| Draw Trajectory | Draw the trajectory using a Sprite | Sprite             *(object)* <br>Layer             *(layer)* <br>Steps             *(number)* <br>Time             *(number)* <br>Set Sprite Angle             *(boolean)* <br> |
+| Draw Trajectory With End Sprite | Draw the trajectory using a Sprite and an end cap Sprite | Sprite             *(object)* <br>End Cap Sprite             *(object)* <br>Layer             *(layer)* <br>Steps             *(number)* <br>Time             *(number)* <br>Set Sprite Angle             *(boolean)* <br> |
+| Clear Drawn Trajectory | Clear the drawn trajectory |  |
+| Predict Trajectory Collision | Predict where a collision with a solid object will occur along the trajectory | Steps             *(number)* <br>Time             *(number)* <br> |
+
 
 ---
 ## Conditions
-| Condition | Description |
-| --- | --- |
-| [Is Enabled](#is-enabled) | Is Enabled |
-| [On Hit Solid](#on-hit-solid) | Triggered when the projectile hits a solid object |
-| [On Start Moving Along Trajectory](#on-start-moving-along-trajectory) | Triggered when the object starts moving along the trajectory |
-| [Is Moving Along Trajectory](#is-moving-along-trajectory) | Is Moving Along Trajectory |
----
-### Is Enabled
-**Description:** <br> Is Enabled </br>
-### On Hit Solid
-**Description:** <br> Triggered when the projectile hits a solid object </br>
-**Is Trigger:** <br> true </br>
-### On Start Moving Along Trajectory
-**Description:** <br> Triggered when the object starts moving along the trajectory </br>
-**Is Trigger:** <br> true </br>
-### Is Moving Along Trajectory
-**Description:** <br> Is Moving Along Trajectory </br>
+| Condition | Description | Params
+| --- | --- | --- |
+| Is Enabled | Check if the trajectory behavior is enabled |  |
+| On Hit Solid | Triggered when the projectile hits a solid object |  |
+| On Start Moving Along Trajectory | Triggered when the object starts moving along the trajectory |  |
+| Is Moving Along Trajectory | ICheck if the object is moving along the trajectory |  |
+| For Each Step In Trajectory | Loop through each step in the trajectory | Steps *(number)* <br>Time *(number)* <br> |
+| On Predicted Collision Found | Triggered when the 'Predict Trajectory Collision' action finds a collision with a solid object |  |
+| No Predicted Collision Found | Triggerd when the 'Predict Trajectory Collision' action does not find a collision with a solid object |  |
+
 
 ---
 ## Expressions
-| Expression | Description |
-| --- | --- |
-| [GetXAt](#getxat) | Get X At |
-| [GetYAt](#getyat) | Get Y At |
-| [GetVelocityX](#getvelocityx) | Get Velocity X |
-| [GetVelocityY](#getvelocityy) | Get Velocity Y |
-| [GetAngleAt](#getangleat) | Get Angle At |
-| [GetMaxHeight](#getmaxheight) | Get Max Height (in pixels) |
----
-### GetXAt
-**Description:** <br> Get X At </br>
-**Return Type:** <br> number </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Time | number | Time, in seconds |
-### GetYAt
-**Description:** <br> Get Y At </br>
-**Return Type:** <br> number </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Time | number | Time, in seconds |
-### GetVelocityX
-**Description:** <br> Get Velocity X </br>
-**Return Type:** <br> number </br>
-### GetVelocityY
-**Description:** <br> Get Velocity Y </br>
-**Return Type:** <br> number </br>
-### GetAngleAt
-**Description:** <br> Get Angle At </br>
-**Return Type:** <br> number </br>
-#### Parameters:
-| Name | Type | Description |
-| --- | --- | --- |
-| Time | number | Time, in seconds |
-### GetMaxHeight
-**Description:** <br> Get Max Height (in pixels) </br>
-**Return Type:** <br> number </br>
+| Expression | Description | Return Type | Params
+| --- | --- | --- | --- |
+| GetXAt | Get the X position at a given time, in seconds | number | Time *(number)* <br> | 
+| GetYAt | Get the Y position at a given time, in seconds | number | Time *(number)* <br> | 
+| GetVelocityX | Get the current velocity X, in pixels per second | number |  | 
+| GetVelocityY | Get the current velocity Y, in pixels per second | number |  | 
+| GetAngleAt | Get the angle at a given time, in seconds | number | Time *(number)* <br> | 
+| GetMaxHeight | Get the maximum height of the trajectory, in pixels | number |  | 
+| GetLoopTimeStep | Get the time step, in seconds, between each loop iteration | number |  | 
+| GetLoopX | Get the current X position, between each loop iteration | number |  | 
+| GetLoopY | Get the current Y position, between each loop iteration | number |  | 
+| GetLoopAngle |  Get the current angle, in degrees, between each loop iteration | number |  | 
+| GetCollisionX | Get X position from Predicted Trajectory Collision | number |  | 
+| GetCollisionY | Get Y position from Predicted Trajectory Collision | number |  | 

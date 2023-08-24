@@ -48,7 +48,7 @@ module.exports = {
       type: "check",
       id: "enabled",
       name: "Enabled",
-      desc: "Enabled",
+      desc: "If Enabled, the object will move along the trajectory paths",
       options: {
         initialValue: true,
         interpolatable: false,
@@ -58,7 +58,7 @@ module.exports = {
       type: "integer",
       id: "velocity",
       name: "Velocity",
-      desc: "Velocity, in pixels per second",
+      desc: "Speed which the object will move in pixels per second",
       options: {
         initialValue: 100,
         interpolatable: false,
@@ -78,7 +78,7 @@ module.exports = {
       type: "integer",
       id: "gravity",
       name: "Gravity",
-      desc: "Gravity, in pixels per second squared",
+      desc: "Force applied every tick, in pixels per second squared",
       options: {
         initialValue: 1000,
         interpolatable: false,
@@ -88,7 +88,7 @@ module.exports = {
       type: "integer",
       id: "gravityAngle",
       name: "Gravity Angle",
-      desc: "Gravity Angle, in degrees",
+      desc: "Angle in which the gravity force will be applied, in degrees",
       options: {
         initialValue: 270,
         interpolatable: false,
@@ -186,7 +186,7 @@ module.exports = {
       ],
       listName: "Set Enabled",
       displayText: "{my}: Set Enabled [i]{0}[/i]",
-      description: "Set Enabled",
+      description: "Sets the behavior as enabled (if true, the object will move along the trajectory paths)",
     },
     SetGravityAngle: {
       category: "settings",
@@ -205,7 +205,7 @@ module.exports = {
       ],
       listName: "Set Gravity Angle",
       displayText: "{my}: Set Gravity Angle [i]{0}[/i]",
-      description: "Set Gravity Angle",
+      description: "Set the angle in which gravity force will be applied, in degrees",
     },
     SetTrajectoryByVelocity: {
       category: "general",
@@ -252,7 +252,7 @@ module.exports = {
       ],
       listName: "Set Trajectory By Velocity",
       displayText: "{my}: Set Trajectory By Velocity (Velocity: [b]{0}[/b], Angle: [b]{1}[/b], Start Instantly: [b]{2}[/b], Stop On Soild: [b]{3}[/b], Set Movement Angle: [b]{4}[/b])",
-      description: "Set Trajectory By Velocity",
+      description: "Calculate the trajectory based on the velocity and launch angle",
     },
     SetTrajectoryByTarget: {
       category: "general",
@@ -306,7 +306,7 @@ module.exports = {
       ],
       listName: "Set Trajectory By Target",
       displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Time:[b]{2}[/b] seconds, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b])",
-      description: "Set Trajectory By Target",
+      description: "Calculate the trajectory based on the target position and time",
     },
     SetTrajectoryByTaregtAngle:{
       category: "general",
@@ -360,7 +360,7 @@ module.exports = {
       ],
       listName: "Set Trajectory By Target Angle",
       displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Angle:[b]{2}[/b] degrees, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b])",
-      description: "Set Trajectory By Target Angle",
+      description: "Calculate the trajectory based on the target position and launch angle",
     },
     DrawTrajectory: {
       category: "drawing",
@@ -406,7 +406,7 @@ module.exports = {
       ],
       listName: "Draw Trajectory",
       displayText: "{my}: Draw Trajectory using [b]{0}[/b] with [b]{2}[/b] Steps, on Layer [b]{1}[/b] (Time [b]{3}[/b], Set Sprite Angle [b]{4}[/b])",
-      description: "Draw Trajectory",
+      description: "Draw the trajectory using a Sprite",
     },
     DrawTrajectoryWithEndSprite: {
       category: "drawing",
@@ -459,7 +459,7 @@ module.exports = {
       ],
       listName: "Draw Trajectory With End Sprite",
       displayText: "{my}: Draw Trajectory using [b]{0}[/b] with [b]{3}[/b] Steps, on Layer [b]{2}[/b] (End Sprite [b]{1}[/b], Time [b]{4}[/b], Set Sprite Angle [b]{5}[/b])",
-      description: "Draw Trajectory",
+      description: "Draw the trajectory using a Sprite and an end cap Sprite",
     },
     ClearDrawnTrajectory: {
       category: "drawing",
@@ -470,7 +470,7 @@ module.exports = {
       params: [],
       listName: "Clear Drawn Trajectory",
       displayText: "{my}: Clear Drawn Trajectory",
-      description: "Clear Drawn Trajectory",
+      description: "Clear the drawn trajectory",
     },
     PredictTrajectoryCollision: {
       category: "prediction",
@@ -496,7 +496,7 @@ module.exports = {
       ],
       listName: "Predict Trajectory Collision",
       displayText: "{my}: Predict Trajectory Collision (Steps: [b]{0}[/b], Time: [b]{1}[/b])",
-      description: "Predict Trajectory Collision",
+      description: "Predict where a collision with a solid object will occur along the trajectory",
     },
     /*
     SampleAction: {
@@ -600,7 +600,7 @@ module.exports = {
       params: [],
       listName: "Is Enabled",
       displayText: "{my}: Is Enabled",
-      description: "Is Enabled",
+      description: "Check if the trajectory behavior is enabled",
     },
     OnHitSolid: {
       category: "general",
@@ -635,7 +635,7 @@ module.exports = {
       params: [],
       listName: "Is Moving Along Trajectory",
       displayText: "{my}: Is Moving Along Trajectory",
-      description: "Is Moving Along Trajectory",
+      description: "ICheck if the object is moving along the trajectory",
     },
     ForEachStepInTrajectory: {
       category: "general",
@@ -662,7 +662,7 @@ module.exports = {
       isLooping: true,
       listName: "For Each Step In Trajectory",
       displayText: "{my}: For Each Step In Trajectory (Steps: [b]{0}[/b], Time: [b]{1}[/b])",
-      description: "For Each Step In Trajectory",
+      description: "Loop through each step in the trajectory",
     },
     OnPredictedCollision: {
       category: "prediction",
@@ -804,7 +804,7 @@ module.exports = {
       returnType: "number",
       listName: "Get X At",
       displayText: "{my}: Get X At [i]{0}[/i]",
-      description: "Get X At",
+      description: "Get the X position at a given time, in seconds",
     },
     GetYAt: {
       category: "general",
@@ -824,7 +824,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Y At",
       displayText: "{my}: Get Y At [i]{0}[/i]",
-      description: "Get Y At",
+      description: "Get the Y position at a given time, in seconds",
     },
     GetVelocityX: {
       category: "general",
@@ -836,7 +836,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Velocity X",
       displayText: "{my}: Get Velocity X",
-      description: "Get Velocity X",
+      description: "Get the current velocity X, in pixels per second",
     },
     GetVelocityY: {
       category: "general",
@@ -848,7 +848,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Velocity Y",
       displayText: "{my}: Get Velocity Y",
-      description: "Get Velocity Y",
+      description: "Get the current velocity Y, in pixels per second",
     },
     GetAngleAt: {
       category: "general",
@@ -868,7 +868,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Angle At",
       displayText: "{my}: Get Angle At [i]{0}[/i]",
-      description: "Get Angle At",
+      description: "Get the angle at a given time, in seconds",
     },
     GetMaxHeight: {
       category: "general",
@@ -880,7 +880,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Max Height",
       displayText: "{my}: Get Max Height",
-      description: "Get Max Height (in pixels)",
+      description: "Get the maximum height of the trajectory, in pixels",
     },
     GetLoopTimeStep: {
       category: "general",
@@ -892,7 +892,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Loop Time Step",
       displayText: "{my}: Get Loop Time Step",
-      description: "Get Current Time Step (in loop)",
+      description: "Get the time step, in seconds, between each loop iteration",
     },
     GetLoopX: {
       category: "general",
@@ -904,7 +904,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Loop X",
       displayText: "{my}: Get Loop X",
-      description: "Get Current X Position (in loop)",
+      description: "Get the current X position, between each loop iteration",
     },
     GetLoopY: {
       category: "general",
@@ -916,7 +916,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Loop Y",
       displayText: "{my}: Get Loop Y",
-      description: "Get Current Y Position (in loop)",
+      description: "Get the current Y position, between each loop iteration",
     },
     GetLoopAngle: {
       category: "general",
@@ -928,7 +928,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Loop Angle",
       displayText: "{my}: Get Loop Angle",
-      description: "Get Current Angle, in degrees (in loop)",
+      description: " Get the current angle, in degrees, between each loop iteration",
     },
     GetCollisionX: {
       category: "prediction",
@@ -940,7 +940,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Collision X",
       displayText: "{my}: Get Collision X",
-      description: "Get Collision X, from Predicted Trajectory Collision",
+      description: "Get X position from Predicted Trajectory Collision",
     },
     GetCollisionY: {
       category: "prediction",
@@ -952,7 +952,7 @@ module.exports = {
       returnType: "number",
       listName: "Get Collision Y",
       displayText: "{my}: Get Collision Y",
-      description: "Get Collision Y from Predicted Trajectory Collision",
+      description: "Get Y position from Predicted Trajectory Collision",
     },
     /*
     SampleExpression: {

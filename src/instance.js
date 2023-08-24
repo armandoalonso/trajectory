@@ -387,7 +387,7 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
     }
 
     LoopAngle() {
-        return this._loopAnle;
+        return  this.ToDegrees(this._loopAngle);
     }
 
     Release() {
