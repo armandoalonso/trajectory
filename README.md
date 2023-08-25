@@ -63,6 +63,8 @@ The main files you may want to look at would be instance.js and scriptInterface.
 | Draw Trajectory With End Sprite | Draw the trajectory using a Sprite and an end cap Sprite | Sprite             *(object)* <br>End Cap Sprite             *(object)* <br>Layer             *(layer)* <br>Steps             *(number)* <br>Time             *(number)* <br>Set Sprite Angle             *(boolean)* <br> |
 | Clear Drawn Trajectory | Clear the drawn trajectory |  |
 | Predict Trajectory Collision | Predict where a collision with a solid object will occur along the trajectory | Steps             *(number)* <br>Time             *(number)* <br> |
+| Start Trajectory | Start moving along predefined the trajectory |  |
+| Stop Trajectory | Stop moving along the trajectory |  |
 
 
 ---
@@ -94,3 +96,8 @@ The main files you may want to look at would be instance.js and scriptInterface.
 | GetLoopAngle |  Get the current angle, in degrees, between each loop iteration | number |  | 
 | GetCollisionX | Get X position from Predicted Trajectory Collision | number |  | 
 | GetCollisionY | Get Y position from Predicted Trajectory Collision | number |  | 
+| Time | Get the last trajectory's time, in seconds, if no time was set, returns -1 | number |  | 
+| TargetX | Get the last trajectory's target X, if no target was set, returns -1 | number |  | 
+| TargetY | Get the last trajectory's target Y, if no target was set, returns -1 | number |  | 
+| Velocity | Get the last trajectory's velocity, in pixels per second | number |  | 
+| LaunchAngle | Get the last trajectory's launch angle, in degrees | number |  | 
