@@ -9,6 +9,9 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       this.gravityAngle = 270;
       this.velocity = 0;
       this.angle = 0;
+      this.targetX = -1;
+      this.targetY = -1;
+      this.time = -1;
       this.vx = 0;
       this.vy = 0;
       this.curX = 0;
@@ -62,6 +65,14 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
 
       this.CheckForCollision(startX, startY, starAngle);
       this.currentTime += dt;
+    }
+
+    StartTrajectory() {
+      this.SetEnabled(true);
+    }
+
+    StopTrajectory() {
+      this.SetEnabled(false);
     }
 
     DrawTrajectoryLineWithEndSprite(sprite, endSprite, layer, steps, time, setAngle) {
@@ -142,6 +153,9 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       this.curX = wi.GetX();
       this.curY = wi.GetY();
       this.currentTime = 0;
+      this.targetX = -1;
+      this.targetY = -1;
+      this.time = -1;
 
       if(start){
         this.Trigger(C3.Behaviors.piranha305_trajectory.Cnds.OnStartMovingAlongTrajectory);
@@ -155,6 +169,9 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
 
       this.SetEnabled(start);
       this.stopOnSolid = stopOnSolid;
+      this.targetX = targetX;
+      this.targetY = targetY;
+      this.time = time;
       this.vx = (targetX - this.curX)/time;
       this.vy = (targetY - this.curY + 0.5 * this.GetGravityY() * time * time)/time;
       this.velocity = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
@@ -177,15 +194,18 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
 
       this.SetEnabled(start);
       this.stopOnSolid = stopOnSolid;
+      this.targetX = targetX;
+      this.targetY = targetY;
       this.vx = (targetX - this.curX)/time;
       this.vy = (targetY - this.curY + 0.5 * this.GetGravityY() * time * time)/time;
       this.angle = angle;
-      if(this.vx < 0) {
-        this.angle += 180;
-      }
+      //if(this.vx < 0) {
+      //  this.angle += 180;
+      //}
       this.velocity = Math.sqrt(this.vx*this.vx + this.vy*this.vy);
       this.setMovementAngle = setMovementAngle;
       this.currentTime = 0;
+      this.time = -1;
 
       if(start){
         this.Trigger(C3.Behaviors.piranha305_trajectory.Cnds.OnStartMovingAlongTrajectory);
@@ -286,8 +306,28 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       return y;
     }
 
+    Time() {
+      return this.time;
+    }
+
+    TargetX() {
+      return this.targetX;
+    }
+
+    TargetY() {
+      return this.targetY;
+    }
+
+    Velocity() {
+      return this.velocity;
+    }
+
+    LaunchAngle() {
+      return this.angle;
+    }
+
     PredictTrajectoryCollision(steps, time) {
-      const timeStep = time / steps;
+      const timeStep = (time * 3) / steps;
       const wi = this._inst.GetWorldInfo();
       const collisionEngine = this._runtime.GetCollisionEngine();
       const points = [];
@@ -306,10 +346,10 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
         const h = (tempRect.height() / 2);
         tempRect.set(point.x-w, point.y-h, point.x+w, point.y-h);
         const collision = collisionEngine.TestRectOverlapSolid(tempRect, this._inst);
-        debugger;
+
         if(collision){
-          this.collisionX = tempRect._left;
-          this.collisionY = tempRect._top;
+          this.collisionX = tempRect.midX();
+          this.collisionY = tempRect.midY();
           this.Trigger(C3.Behaviors.piranha305_trajectory.Cnds.OnPredictedCollision);
           return;
         };
