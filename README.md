@@ -34,7 +34,12 @@ The main files you may want to look at would be instance.js and scriptInterface.
 ## Examples Files
 - [piranha305_trajectory_example](./examples/piranha305_trajectory_example.c3p)
 </br>
+</br>
 <img src="./examples/piranha305_trajectory_example.gif" width="200" />
+</br>
+<img src="./examples/piranha305_trajectory_example2.gif" width="200" />
+</br>
+<img src="./examples/piranha305_trajectory_example3.gif" width="200" />
 </br>
 
 ---
