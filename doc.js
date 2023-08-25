@@ -101,9 +101,10 @@ if(fs.existsSync(exampleFolderPath)) {
       //add images
       images.forEach((image) => {
         const imageName = image.split(".")[0];
-        if(imageName === fileName) {
+        readme.push(`</br>`);
+        //check if image contains the name of the example file
+        if (imageName.includes(fileName)) {
           // display the a small version of the image on a new line
-          readme.push(`</br>`);
           readme.push(`<img src="./examples/${image}" width="200" />`);
         }
       });
