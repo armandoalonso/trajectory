@@ -520,6 +520,25 @@ module.exports = {
       displayText: "{my}: Stop Trajectory",
       description: "Stop moving along the trajectory",
     },
+    LoadFromJSON: {
+      category: "general",
+      forward: "LoadFromJSON",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [
+        {
+          id: "json",
+          name: "JSON",
+          desc: "JSON",
+          type: "string",
+          value: "",
+        },
+      ],
+      listName: "Load From JSON",
+      displayText: "{my}: Load From JSON [i]{0}[/i]",
+      description: "Load the trajectory data from a JSON string",
+    }
     /*
     SampleAction: {
       // The category of the action as it appears in the add action dialog
@@ -1036,6 +1055,18 @@ module.exports = {
       displayText: "{my}: Get Launch Angle",
       description: "Get the last trajectory's launch angle, in degrees",
     },
+    AsJSON: {
+      category: "general",
+      forward: "AsJSON",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [ ],
+      returnType: "string",
+      listName: "Get Trajectory As JSON",
+      displayText: "{my}: Get Trajectory As JSON",
+      description: "Get the trajectory data as a JSON string",
+    }
     /*
     SampleExpression: {
       // The category of the action as it appears in the expression picker

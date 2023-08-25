@@ -326,6 +326,19 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       return this.angle;
     }
 
+    LoadFromJSON(json) {
+      try {
+        const data = JSON.parse(json);
+        this.LoadFromJson(data);
+      } catch(e) {
+        console.warn("Invalid JSON", e);
+      }
+    }
+
+    AsJSON() {
+      return JSON.stringify(this.SaveToJson());
+    }
+
     PredictTrajectoryCollision(steps, time) {
       const timeStep = (time * 3) / steps;
       const wi = this._inst.GetWorldInfo();
