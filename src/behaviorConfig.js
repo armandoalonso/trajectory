@@ -14,7 +14,7 @@ module.exports = {
   documentation: "https://www.construct.net",
   description: "A Trajectory behavior for Construct 3, Simulate 2D physics trajectory and projectile motion. simulates the motion of an object that is thrown, launched, or otherwise projected",
   // icon: "icon.svg", // defaults to "icon.svg" if omitted
-  // addonUrl: "https://www.construct.net/en/make-games/addons/####/XXXX", // displayed in auto-generated docs
+  addonUrl: "https://www.construct.net/en/make-games/addons/1088/trajectory", // displayed in auto-generated docs
   // githubUrl: "https://github.com/skymen/XXXX", // displays latest release version in auto-generated docs
   fileDependencies: [
     {
