@@ -98,7 +98,7 @@ jobs:
               --addonUrl '${{steps.url.outputs.url}}' \
               --authUser ${{ secrets.C3_AUTH_USER }} \
               --authPassword ${{ secrets.C3_AUTH_PASSWORD }} \
-              --uploadFile MyCompany_SingleGlobal.c3addon \
+              --uploadFile ${{ steps.getfile.outputs.filename }} \
               --version ${{ steps.getfile.outputs.version }} \
               --releaseNotes 'Released via GitHub Actions'
 
