@@ -3,6 +3,7 @@
 A Trajectory behavior for Construct 3, Simulate 2D physics trajectory and projectile motion. simulates the motion of an object that is thrown, launched, or otherwise projected <br>
 <br>
 Author: piranha305 <br>
+Addon Url: https://www.construct.net/en/make-games/addons/1088/trajectory <br>
 <sub>Made using [c3ide2-framework](https://github.com/ConstructFund/c3ide2-framework) </sub><br>
 
 ## Table of Contents
@@ -70,6 +71,7 @@ The main files you may want to look at would be instance.js and scriptInterface.
 | Predict Trajectory Collision | Predict where a collision with a solid object will occur along the trajectory | Steps             *(number)* <br>Time             *(number)* <br> |
 | Start Trajectory | Start moving along predefined the trajectory |  |
 | Stop Trajectory | Stop moving along the trajectory |  |
+| Load From JSON | Load the trajectory data from a JSON string | JSON             *(string)* <br> |
 
 
 ---
@@ -106,3 +108,4 @@ The main files you may want to look at would be instance.js and scriptInterface.
 | TargetY | Get the last trajectory's target Y, if no target was set, returns -1 | number |  | 
 | Velocity | Get the last trajectory's velocity, in pixels per second | number |  | 
 | LaunchAngle | Get the last trajectory's launch angle, in degrees | number |  | 
+| AsJSON | Get the trajectory data as a JSON string | string |  | 
