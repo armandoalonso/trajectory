@@ -67,27 +67,31 @@ jobs:
       - name: Check if variables are set
         id: check
         run: |
+          publish=true
           if [[ -z "${{ secrets.C3_AUTH_USER }}" ]]; then
             echo "C3 AUTH_USER is not set. skip publishing."
-            exit 0
+            publish=false
           fi
           if [[ -z "${{ secrets.C3_AUTH_PASSWORD }}" ]]; then
             echo "C3 AUTH_PASSWORD is not set. skip publishing."
-            exit 0
+            publish=false
           fi
+          echo "publish=$publish" >> $GITHUB_OUTPUT
 
       - name: Install publish dependencies
-        if: 
+        if: steps.check.outputs.publish == 'true'
         run: |
           npm install -g c3addon
             
       - name: Get Addon Url
+        if: steps.check.outputs.publish == 'true'
         id: url
         run: |
             url=$(grep -oP 'addonUrl:\s?"\K[^"]*' src/behaviorConfig.js | cut -d '"' -f 1)
             echo "Addon Url: $url"
         
       - name: Publish to Construct 3
+        if: steps.check.outputs.publish == 'true'
         run: |
             c3addon publish \
               --addonUrl '${{steps.url.outputs.url}}' \
