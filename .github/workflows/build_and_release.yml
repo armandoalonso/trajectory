@@ -89,6 +89,10 @@ jobs:
         run: |
             url=$(grep -oP 'addonUrl:\s?"\K[^"]*' src/behaviorConfig.js | cut -d '"' -f 1)
             echo "Addon Url: $url"
+            if [[ -z "$url" ]]; then
+              echo "Addon Url is not set. skip publishing."
+              exit 1
+            fi
             echo "url=$url" >> $GITHUB_OUTPUT
         
       - name: Publish to Construct 3
