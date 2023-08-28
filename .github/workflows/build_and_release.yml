@@ -65,6 +65,7 @@ jobs:
           makeLatest: true
 
   publish-construct3-addon:
+    needs: build-and-release
     runs-on: ubuntu-latest
           
     steps:
