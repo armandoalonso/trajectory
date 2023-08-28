@@ -69,11 +69,11 @@ jobs:
         run: |
           if [[ -z "${{ secrets.C3_AUTH_USER }}" ]]; then
             echo "C3 AUTH_USER is not set. skip publishing."
-            exit 1
+            exit 0
           fi
           if [[ -z "${{ secrets.C3_AUTH_PASSWORD }}" ]]; then
             echo "C3 AUTH_PASSWORD is not set. skip publishing."
-            exit 1
+            exit 0
           fi
 
       - name: Install publish dependencies
