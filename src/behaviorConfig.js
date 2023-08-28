@@ -14,7 +14,7 @@ module.exports = {
   documentation: "https://www.construct.net",
   description: "A Trajectory behavior for Construct 3, Simulate 2D physics trajectory and projectile motion. simulates the motion of an object that is thrown, launched, or otherwise projected",
   // icon: "icon.svg", // defaults to "icon.svg" if omitted
-  // addonUrl: "https://www.construct.net/en/make-games/addons/####/XXXX", // displayed in auto-generated docs
+  addonUrl: "https://www.construct.net/en/make-games/addons/1088/trajectory", // displayed in auto-generated docs
   // githubUrl: "https://github.com/skymen/XXXX", // displays latest release version in auto-generated docs
   fileDependencies: [
     {
@@ -520,6 +520,25 @@ module.exports = {
       displayText: "{my}: Stop Trajectory",
       description: "Stop moving along the trajectory",
     },
+    LoadFromJSON: {
+      category: "general",
+      forward: "LoadFromJSON",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [
+        {
+          id: "json",
+          name: "JSON",
+          desc: "JSON",
+          type: "string",
+          value: "",
+        },
+      ],
+      listName: "Load From JSON",
+      displayText: "{my}: Load From JSON [i]{0}[/i]",
+      description: "Load the trajectory data from a JSON string",
+    }
     /*
     SampleAction: {
       // The category of the action as it appears in the add action dialog
@@ -1036,6 +1055,18 @@ module.exports = {
       displayText: "{my}: Get Launch Angle",
       description: "Get the last trajectory's launch angle, in degrees",
     },
+    AsJSON: {
+      category: "general",
+      forward: "AsJSON",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [ ],
+      returnType: "string",
+      listName: "Get Trajectory As JSON",
+      displayText: "{my}: Get Trajectory As JSON",
+      description: "Get the trajectory data as a JSON string",
+    }
     /*
     SampleExpression: {
       // The category of the action as it appears in the expression picker
