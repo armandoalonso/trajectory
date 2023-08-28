@@ -78,7 +78,7 @@ jobs:
                 
       - name: Install publish dependencies
         run: |
-                    npm install -g c3addon
+          npm install -g c3addon
           
       - name: Get Addon Url
         run: |
