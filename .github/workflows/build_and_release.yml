@@ -63,25 +63,38 @@ jobs:
           name: v${{ steps.getfile.outputs.version }}
           allowUpdates: true
           makeLatest: true
+      
+      - name: Check if variables are set
+        id: check
+        run: |
+          if [[ -z "${{ secrets.C3_AUTH_USER }}" ]]; then
+            echo "C3 AUTH_USER is not set. skip publishing."
+            exit 1
+          fi
+          if [[ -z "${{ secrets.C3_AUTH_PASSWORD }}" ]]; then
+            echo "C3 AUTH_PASSWORD is not set. skip publishing."
+            exit 1
+          fi
 
-  publish-construct3-addon:
-    needs: build-and-release
-    runs-on: ubuntu-latest
-          
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-          
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-                
       - name: Install publish dependencies
+        if: 
         run: |
           npm install -g c3addon
-          
+            
       - name: Get Addon Url
+        id: url
         run: |
-          url=$(grep -oP '(?<=^addonUrl: ).*' src/behaviorConfig.js)
-          echo "Addon Url: $url"
+            url=$(grep -oP 'addonUrl:\s?"\K[^"]*' src/behaviorConfig.js | cut -d '"' -f 1)
+            echo "Addon Url: $url"
+        
+      - name: Publish to Construct 3
+        run: |
+            c3addon publish \
+              --addonUrl '${{steps.url.outputs.url}}' \
+              --authUser ${{ secrets.C3_AUTH_USER }} \
+              --authPassword ${{ secrets.C3_AUTH_PASSWORD }} \
+              --uploadFile MyCompany_SingleGlobal.c3addon \
+              --version ${{ steps.getfile.outputs.version }} \
+              --releaseNotes 'Released via GitHub Actions'
+
+
