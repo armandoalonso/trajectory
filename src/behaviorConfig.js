@@ -3,7 +3,7 @@ module.exports = {
   addonType: "behavior",
   id: "piranha305_trajectory",
   name: "Trajectory",
-  version: "1.0.0.1",
+  version: "1.0.0.2",
   category:
     // "attributes",
      "movements",
