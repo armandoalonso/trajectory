@@ -3,7 +3,7 @@ module.exports = {
   addonType: "behavior",
   id: "piranha305_trajectory",
   name: "Trajectory",
-  version: "1.0.0.3",
+  version: "1.1.0.0",
   category:
     // "attributes",
      "movements",
@@ -302,10 +302,17 @@ module.exports = {
           desc: "Set movement angle to match the direction of the trajectory",
           type: "boolean",
           value: "false",
+        },
+        {
+          id: "stopOnTargetReached",
+          name: "Stop On Target Reached",
+          desc: "Stop the projectile movement when the target is reached",
+          type: "boolean",
+          value: "false",
         }
       ],
       listName: "Set Trajectory By Target",
-      displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Time:[b]{2}[/b] seconds, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b])",
+      displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Time:[b]{2}[/b] seconds, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b], Stop On Target Reached:[b]{6}[/b])",
       description: "Calculate the trajectory based on the target position and time",
     },
     SetTrajectoryByTaregtAngle:{
@@ -356,10 +363,17 @@ module.exports = {
           desc: "Set movement angle to match the direction of the trajectory",
           type: "boolean",
           value: "false",
+        },
+        {
+          id: "stopOnTargetReached",
+          name: "Stop On Target Reached",
+          desc: "Stop the projectile movement when the target is reached",
+          type: "boolean",
+          value: "false",
         }
       ],
       listName: "Set Trajectory By Target Angle",
-      displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Angle:[b]{2}[/b] degrees, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b])",
+      displayText: "{my}: Set Trajectory to Target (X:[b]{0}[/b], Y:[b]{1}[/b], Angle:[b]{2}[/b] degrees, Start Instantly:[b]{3}[/b], Stop On Solid:[b]{4}[/b], Set Movement Angle:[b]{5}[/b], Stop On Target Reached:[b]{6}[/b])",
       description: "Calculate the trajectory based on the target position and launch angle",
     },
     DrawTrajectory: {
@@ -728,7 +742,19 @@ module.exports = {
       listName: "No Predicted Collision Found",
       displayText: "{my}: No Predicted Collision Found",
       description: "Triggerd when the 'Predict Trajectory Collision' action does not find a collision with a solid object",
-    }
+    },
+    OnTargetReached: {
+      category: "general",
+      forward: "OnTargetReached",
+      autoScriptInterface: true,
+      highlight: false,
+      deprecated: false,
+      params: [],
+      isTrigger: true,
+      listName: "On Target Reached",
+      displayText: "{my}: On Target Reached",
+      description: "Triggered when the object reaches the target position",
+    },
     /*
     SampleCondition: {
       // The category of the action as it appears in the add condition dialog
