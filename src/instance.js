@@ -18,6 +18,7 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       this.curY = 0;
       this.currentTime = 0;
       this.stopOnSolid = false;
+      this.stopOnTargetReached = false;
       this.setMovementAngle = false;
 
       //variables used during loop
@@ -63,6 +64,7 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       wi.SetAngle(this.setMovementAngle && this.currentTime > 0.1 ? this.GetAngleAt(this.currentTime) : 0);
       wi.SetBboxChanged();
 
+      this.CheckIfTargetReached(wi.GetX(), wi.GetY());
       this.CheckForCollision(startX, startY, starAngle);
       this.currentTime += dt;
     }
@@ -73,6 +75,18 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
 
     StopTrajectory() {
       this.SetEnabled(false);
+    }
+
+    CheckIfTargetReached(startX, startY) {
+      if(this.stopOnTargetReached && this.targetX != -1 && this.targetY != -1) {
+        const dist = C3.distanceTo(startX, startY, this.targetX, this.targetY);
+
+        if(dist < 1) {
+          this.StopMovement();
+          debugger;
+          this.Trigger(C3.Behaviors.piranha305_trajectory.Cnds.OnTargetReached);
+        }
+      }
     }
 
     DrawTrajectoryLineWithEndSprite(sprite, endSprite, layer, steps, time, setAngle) {
@@ -139,6 +153,10 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       return this.isMoving;
     }
 
+    OnTargetReached() {
+      return true;
+    }
+
     SetTrajectoryByVelocity(velocity, angle, start, stopOnSolid, setMovementAngle) {
       const {vx, vy} = this.GetVectorComponents(velocity, angle);
       const wi = this._inst.GetWorldInfo();
@@ -162,13 +180,14 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       }
     };
 
-    SetTrajectoryByTarget(targetX, targetY, time, start, stopOnSolid, setMovementAngle) {
+    SetTrajectoryByTarget(targetX, targetY, time, start, stopOnSolid, setMovementAngle, stopOnTargetReached) {
       const wi = this._inst.GetWorldInfo();
       this.curX = wi.GetX();
       this.curY = wi.GetY();
 
       this.SetEnabled(start);
       this.stopOnSolid = stopOnSolid;
+      this.stopOnTargetReached = stopOnTargetReached;
       this.targetX = targetX;
       this.targetY = targetY;
       this.time = time;
@@ -187,13 +206,14 @@ function getInstanceJs(parentClass, scriptInterface, addonTriggers, C3) {
       }
     };
 
-    SetSetTrajectoryByTaregtAngle(targetX, targetY, angle, start, stopOnSolid, setMovementAngle) {
+    SetSetTrajectoryByTaregtAngle(targetX, targetY, angle, start, stopOnSolid, setMovementAngle, stopOnTargetReached) {
       const wi = this._inst.GetWorldInfo();
       this.curX = wi.GetX();
       this.curY = wi.GetY();
 
       this.SetEnabled(start);
       this.stopOnSolid = stopOnSolid;
+      this.stopOnTargetReached = stopOnTargetReached;
       this.targetX = targetX;
       this.targetY = targetY;
       this.vx = (targetX - this.curX)/time;
