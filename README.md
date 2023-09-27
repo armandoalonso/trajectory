@@ -63,8 +63,8 @@ The main files you may want to look at would be instance.js and scriptInterface.
 | Set Enabled | Sets the behavior as enabled (if true, the object will move along the trajectory paths) | Enabled             *(boolean)* <br> |
 | Set Gravity Angle | Set the angle in which gravity force will be applied, in degrees | Gravity Angle             *(number)* <br> |
 | Set Trajectory By Velocity | Calculate the trajectory based on the velocity and launch angle | Velocity             *(number)* <br>Launch Angle             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br> |
-| Set Trajectory By Target | Calculate the trajectory based on the target position and time | Target X             *(number)* <br>Target Y             *(number)* <br>Time             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br> |
-| Set Trajectory By Target Angle | Calculate the trajectory based on the target position and launch angle | Target X             *(number)* <br>Target Y             *(number)* <br>Launch Angle             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br> |
+| Set Trajectory By Target | Calculate the trajectory based on the target position and time | Target X             *(number)* <br>Target Y             *(number)* <br>Time             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br>Stop On Target Reached             *(boolean)* <br> |
+| Set Trajectory By Target Angle | Calculate the trajectory based on the target position and launch angle | Target X             *(number)* <br>Target Y             *(number)* <br>Launch Angle             *(number)* <br>Start Instantly             *(boolean)* <br>Stop On Solid             *(boolean)* <br>Set Movement Angle             *(boolean)* <br>Stop On Target Reached             *(boolean)* <br> |
 | Draw Trajectory | Draw the trajectory using a Sprite | Sprite             *(object)* <br>Layer             *(layer)* <br>Steps             *(number)* <br>Time             *(number)* <br>Set Sprite Angle             *(boolean)* <br> |
 | Draw Trajectory With End Sprite | Draw the trajectory using a Sprite and an end cap Sprite | Sprite             *(object)* <br>End Cap Sprite             *(object)* <br>Layer             *(layer)* <br>Steps             *(number)* <br>Time             *(number)* <br>Set Sprite Angle             *(boolean)* <br> |
 | Clear Drawn Trajectory | Clear the drawn trajectory |  |
@@ -85,6 +85,7 @@ The main files you may want to look at would be instance.js and scriptInterface.
 | For Each Step In Trajectory | Loop through each step in the trajectory | Steps *(number)* <br>Time *(number)* <br> |
 | On Predicted Collision Found | Triggered when the 'Predict Trajectory Collision' action finds a collision with a solid object |  |
 | No Predicted Collision Found | Triggerd when the 'Predict Trajectory Collision' action does not find a collision with a solid object |  |
+| On Target Reached | Triggered when the object reaches the target position |  |
 
 
 ---
